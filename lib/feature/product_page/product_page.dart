@@ -31,7 +31,7 @@ class ProductPage extends ConsumerWidget {
           const SizedBox(height: 20),
 
           // product
-          const Expanded(
+           Expanded(
             child: ProductWidget(), 
           ),
 

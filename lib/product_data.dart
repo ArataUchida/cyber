@@ -15,5 +15,12 @@ const Map<String,Object> productData = {
 			"product_thumbnail": "assets/images/Iphone 11.png",
 			"is_favorite": false
 		},	
+    {
+      "product_id": 3,
+			"product_name": "Apple iPhone 11 128GB",
+			"product_price": 550,
+			"product_thumbnail": "assets/images/Iphone 14 pro_white.png",
+			"is_favorite": false
+		},	
 	]
 };
