@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cyber/feature/shopping_cart_page/shopping_cart_page.dart';
-
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:cyber/feature/shopping_cart_page/shopping_cart_page.dart';
+import 'package:cyber/provider/shopping_cart_provider.dart';
 import 'package:cyber/product_detail_data.dart'; 
 
 final selectedColorProvider = StateProvider<Color>((ref) => Colors.black);
 final selectedStorageProvider = StateProvider<String>((ref) => '1TB');
 
 class ProductDetailPage extends ConsumerWidget {
-  const ProductDetailPage({super.key});
+  final int index; 
+  const ProductDetailPage({super.key, required this.index});
+
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -19,7 +18,7 @@ class ProductDetailPage extends ConsumerWidget {
     final selectedStorage = ref.watch(selectedStorageProvider);
 
     final colors = [Colors.black, Colors.purple, Colors.red, Colors.yellow, Colors.white];
-    final storages = List<String>.from(productDetailData[0]['product_storage'] as List<dynamic>);
+    final storages = List<String>.from(productDetailData[index]['product_storage'] as List<dynamic>);
 
     return Scaffold(
       appBar: AppBar(
@@ -38,15 +37,15 @@ class ProductDetailPage extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Image.asset(
-              productDetailData[0]['thumbnail'] as String,
+              productDetailData[index]['thumbnail'] as String,
               width: double.infinity,
               height: 200,
               fit: BoxFit.contain,
             ),
-
+            
             const SizedBox(height: 10),
 
-            Text(productDetailData[0]['product_name'] as String, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+            Text(productDetailData[index]['product_name'] as String, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
 
             const SizedBox(height: 10),
 
@@ -88,7 +87,7 @@ class ProductDetailPage extends ConsumerWidget {
 
             Row(
               children: [
-                Text('\$${productDetailData[0]['product_price']}', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                Text('\$${productDetailData[index]['product_price']}', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
                 const SizedBox(width: 8),
                 const Text('\$1499', style: TextStyle(decoration: TextDecoration.lineThrough)),
               ],
@@ -103,12 +102,12 @@ class ProductDetailPage extends ConsumerWidget {
               mainAxisSpacing: 8,
               crossAxisSpacing: 8,
               children: [
-                SpecTile(icon: Icons.smartphone, label: 'Screen size', value: '${productDetailData[0]['product_screenSize']}"'),
-                SpecTile(icon: Icons.memory, label: 'CPU', value: productDetailData[0]['product_cpu'] as String),
-                SpecTile(icon: Icons.blur_circular, label: 'Cores', value: '${productDetailData[0]['product_numberOfCores']}'),
-                SpecTile(icon: Icons.camera_alt, label: 'Main', value: productDetailData[0]['product_mainCamera'] as String),
-                SpecTile(icon: Icons.camera_front, label: 'Front', value: productDetailData[0]['product_FrontCamera'] as String),
-                SpecTile(icon: Icons.battery_full, label: 'Battery', value: productDetailData[0]['product_batteryCapacity'] as String),
+                SpecTile(icon: Icons.smartphone, label: 'Screen size', value: '${productDetailData[index]['product_screenSize']}"'),
+                SpecTile(icon: Icons.memory, label: 'CPU', value: productDetailData[index]['product_cpu'] as String),
+                SpecTile(icon: Icons.blur_circular, label: 'Cores', value: '${productDetailData[index]['product_numberOfCores']}'),
+                SpecTile(icon: Icons.camera_alt, label: 'Main', value: productDetailData[index]['product_mainCamera'] as String),
+                SpecTile(icon: Icons.camera_front, label: 'Front', value: productDetailData[index]['product_FrontCamera'] as String),
+                SpecTile(icon: Icons.battery_full, label: 'Battery', value: productDetailData[index]['product_batteryCapacity'] as String),
               ],
             ),
 
@@ -124,6 +123,12 @@ class ProductDetailPage extends ConsumerWidget {
               width: double.infinity,
               child: OutlinedButton(
                 onPressed: () {
+                  final cartItem = CartItem(
+                    name: productDetailData[index]['product_name'] as String,
+                    thumbnail: productDetailData[index]["thumbnail"] as String,
+                    price: productDetailData[index]['product_price'] as int,
+                  );
+                  ref.read(cartProvider.notifier).addToCart(cartItem);
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => CartScreen()),
@@ -132,9 +137,7 @@ class ProductDetailPage extends ConsumerWidget {
                 child: const Text('Add to Wishlist'),
               ),
             ),
-
             const SizedBox(height: 10),
-
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(

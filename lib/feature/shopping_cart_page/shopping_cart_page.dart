@@ -1,20 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:cyber/feature/product_page/product_page.dart';
 import 'package:cyber/feature/shopping_cart_page/item_weidget.dart';
-import 'package:cyber/shopping_cart_data.dart';
+import 'package:cyber/provider/shopping_cart_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CartScreen extends StatelessWidget {
-  final List<CartItem> cartItems = (shoppingCartData['cart_items'] as List)
-      .map((item) => CartItem.fromJson(item))
-      .toList();
-
-  final OrderSummary orderSummary =
-      OrderSummary.fromJson(shoppingCartData['order_summary'] as Map<String,dynamic>);
-
+class CartScreen extends ConsumerWidget {
   CartScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cartItems = ref.watch(cartProvider);
+
+    final subtotal = cartItems.fold<int>(
+      0,
+      (sum, item) => sum + item.price * item.quantity,
+    );
+
+    final orderSummary = OrderSummary(
+      subtotal: subtotal,
+      estimatedTax: 50,
+      estimatedShipping: 29,
+      total: subtotal + 50 + 29 ,
+    );
     return Scaffold(
       appBar: AppBar(
         title: Align(
@@ -31,14 +38,41 @@ class CartScreen extends StatelessWidget {
         children: [
           Text('Shopping Cart', style:  TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
           const SizedBox(height: 24),
-          ...cartItems.map((item) => Card(
-                child: ListTile(
-                  leading: Image.asset(item.thumbnail, width: 70),
-                  title: Text(item.name),
-                  subtitle: Text("Quantity: ${item.quantity}"),
-                  trailing: Text("\$${item.price}"),
+          ...cartItems.map((item) => ListTile(
+            leading: Image.asset(item.thumbnail, width: 60),
+            title: Text(item.name),
+            //subtitle: Text("数量: ${item.quantity}"),
+            subtitle: Row(
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.remove),
+                  onPressed: () {
+                    ref.read(cartProvider.notifier).decreaseQuantity(item);
+                  },
                 ),
-              )),
+                Text("${item.quantity}"),
+                IconButton(
+                  icon: const Icon(Icons.add),
+                  onPressed: () {
+                    ref.read(cartProvider.notifier).increaseQuantity(item);
+                  },
+                ),
+              ],
+            ),
+            //trailing: Text("\$${item.price * item.quantity}"),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text("\$${item.price * item.quantity}"),
+                IconButton(
+                  icon: const Icon(Icons.delete, color: Colors.red),
+                  onPressed: () {
+                    ref.read(cartProvider.notifier).removeItem(item);
+                  },
+                ),
+              ],
+            )
+          )),
           const SizedBox(height: 24),
           const Text("Order Summary",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
@@ -50,7 +84,14 @@ class CartScreen extends StatelessWidget {
           _buildSummaryRow("Total", orderSummary.total, isBold: true),
           const SizedBox(height: 20),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context, 
+                MaterialPageRoute(
+                  builder: (context) => ProductPage()
+                )
+              );
+            },
             child: const Text("Checkout"),
           )
         ],
