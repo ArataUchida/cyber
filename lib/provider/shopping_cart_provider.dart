@@ -1,11 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CartItem {
-  final String name;
-  final String thumbnail;
-  final int price;
-  int quantity;
 
   CartItem({
     required this.name,
@@ -13,6 +8,10 @@ class CartItem {
     required this.price,
     this.quantity = 1,
   });
+  final String name;
+  final String thumbnail;
+  final int price;
+  int quantity;
 
   CartItem copyWith({int? quantity}) {
     return CartItem(
@@ -58,7 +57,7 @@ class CartNotifier extends StateNotifier<List<CartItem>>{
         if (i.name == item.name)
           i.copyWith(quantity: i.quantity + 1)
         else
-          i
+          i,
     ];
   }
 
@@ -73,7 +72,7 @@ class CartNotifier extends StateNotifier<List<CartItem>>{
           if (i.name == item.name)
             i.copyWith(quantity: i.quantity - 1)
           else
-            i
+            i,
       ];
     }
   }

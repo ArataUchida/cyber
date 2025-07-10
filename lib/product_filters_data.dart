@@ -1,26 +1,26 @@
 const productFiltersData = {
-	"range": {
-		"minPrice": 1000,
-		"maxPrice": 2000,
+	'range': {
+		'minPrice': 1000,
+		'maxPrice': 2000,
 	},
-	"brand": [
+	'brand': [
 		{
-			"key": "Apple",
-			"value": 1
+			'key': 'Apple',
+			'value': 1,
 		},
 		{
-			"key": "Sony",
-			"value": 2
+			'key': 'Sony',
+			'value': 2,
 		},
 	],
-	"storage": [
+	'storage': [
 		{
-			"key": "16GB",
-			"value": 1
+			'key': '16GB',
+			'value': 1,
 		},
 		{
-			"key": "32GB",
-			"value": 2
+			'key': '32GB',
+			'value': 2,
 		},
 	],	
 };

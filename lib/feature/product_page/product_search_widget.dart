@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:cyber/feature/filter_page/filter_page.dart';
+import 'package:flutter/material.dart';
 
 class ProductSearchWidget extends StatelessWidget{
   const ProductSearchWidget ({super.key});
 
   @override
   Widget build(BuildContext context){
-    return Padding(padding: EdgeInsets.only(top: 40),
+    return Padding(padding: const EdgeInsets.only(top: 40),
       child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -15,14 +15,15 @@ class ProductSearchWidget extends StatelessWidget{
           onPressed: () {
             Navigator.push(
               context, 
-              MaterialPageRoute(builder: (context) => const FilterPage())
+              MaterialPageRoute(builder: (context) => const FilterPage()),
               );
           },
           style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            padding: EdgeInsets.symmetric(horizontal: 45, vertical: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 45, vertical: 16),
+            backgroundColor: Colors.white
           ),
-          child: Row(
+          child: const Row(
             children: [
               Text('Filters'),
               SizedBox(width: 15),
@@ -36,9 +37,10 @@ class ProductSearchWidget extends StatelessWidget{
           onPressed: () {},
           style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            padding: EdgeInsets.symmetric(horizontal: 35, vertical: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 16),
+            backgroundColor: Colors.white
           ),
-          child: Row(
+          child: const Row(
             children: [
               Text('By rating',),
               SizedBox(width: 15),

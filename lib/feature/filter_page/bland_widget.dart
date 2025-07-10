@@ -1,40 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:cyber/provider/brand_selection_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-/// ブランドリスト
-const brandList = [
-  'Apple',
-  'Samsung',
-  'Xiaomi',
-  'Poco',
-  'OPPO',
-  'Honor',
-  'Motorola',
-  'Nokia',
-  'Realme'
-];
-
-class BrandSelectionNotifier extends StateNotifier<Map<String, bool>> {
-  BrandSelectionNotifier()
-      : super({for (final brand in brandList) brand: false});
-
-  void toggle(String brand, bool selected) {
-    state = {
-      ...state,
-      brand: selected,
-    };
-  }
-
-  void reset() {
-    state = {for (final brand in brandList) brand: false};
-  }
-}
-
-final brandSelectionProvider =
-    StateNotifierProvider<BrandSelectionNotifier, Map<String, bool>>(
-        (ref) => BrandSelectionNotifier());
-
-final brandSearchProvider = StateProvider<String>((ref) => '');
 
 class BrandFilterWidget extends ConsumerWidget {
   const BrandFilterWidget({super.key});
@@ -47,7 +13,7 @@ class BrandFilterWidget extends ConsumerWidget {
     // フィルターされたブランドリスト
     final filteredBrands = brandList
         .where((brand) =>
-            brand.toLowerCase().contains(searchText.toLowerCase()))
+            brand.toLowerCase().contains(searchText.toLowerCase()),)
         .toList();
 
     return Column(
@@ -63,6 +29,7 @@ class BrandFilterWidget extends ConsumerWidget {
                 borderRadius: BorderRadius.all(Radius.circular(10)),
               ),
               filled: true,
+              fillColor: Colors.white,
             ),
             onChanged: (value) =>
                 ref.read(brandSearchProvider.notifier).state = value,

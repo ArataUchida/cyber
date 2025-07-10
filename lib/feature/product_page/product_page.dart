@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:cyber/feature/product_page/pagination_widget.dart';
 import 'package:cyber/feature/product_page/product_search_widget.dart';
 import 'package:cyber/feature/product_page/product_widget.dart';
-import 'package:cyber/feature/product_page/pagination_widget.dart';
 import 'package:cyber/provider/pagination_provider.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ProductPage extends ConsumerWidget {
   const ProductPage({super.key});
@@ -13,7 +13,9 @@ class ProductPage extends ConsumerWidget {
     final currentPage = ref.watch(currentPageProvider);
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white, 
         title: Align(
           alignment: Alignment.centerLeft,
           child: Image.asset(
@@ -23,26 +25,26 @@ class ProductPage extends ConsumerWidget {
           ),
         ),
       ),
-      endDrawer: Drawer(),
-      body: Column(
+      endDrawer: const Drawer(),
+      body: const Column(
         children: [
           // Filters By rating
-          const ProductSearchWidget(),
-          const SizedBox(height: 20),
+          ProductSearchWidget(),
+          SizedBox(height: 20),
 
           // product
-           Expanded(
+          Expanded(
             child: ProductWidget(), 
           ),
 
           // PageWidget
-          PaginationWidget(
-            currentPage: currentPage,
-            totalPages: 12,
-            onPageChanged: (page) {
-              ref.read(currentPageProvider.notifier).state = page;
-            },
-          ),
+          //PaginationWidget(
+          //  currentPage: currentPage,
+          //  totalPages: 12,
+          //  onPageChanged: (page) {
+          //    ref.read(currentPageProvider.notifier).state = page;
+          //  },
+          //),
         ],
       ),
     );

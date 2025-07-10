@@ -1,24 +1,41 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cyber/feature/shopping_cart_page/shopping_cart_page.dart';
+import 'package:cyber/product_detail_data.dart';
 import 'package:cyber/provider/shopping_cart_provider.dart';
-import 'package:cyber/product_detail_data.dart'; 
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart'; 
 
-final selectedColorProvider = StateProvider<Color>((ref) => Colors.black);
+final selectedColorProvider = StateProvider<Color?>((ref) => null);
 final selectedStorageProvider = StateProvider<String>((ref) => '1TB');
+final productIdProvider = StateProvider<int>((ref) => 0);
 
-class ProductDetailPage extends ConsumerWidget {
-  final int index; 
-  const ProductDetailPage({super.key, required this.index});
-
+class ProductDetailPage extends ConsumerWidget { 
+  //final int product_Id; 5
+  const ProductDetailPage({required this.index, super.key});
+  final int index;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedColor = ref.watch(selectedColorProvider);
     final selectedStorage = ref.watch(selectedStorageProvider);
-
-    final colors = [Colors.black, Colors.purple, Colors.red, Colors.yellow, Colors.white];
+    final productId = ref.watch(productIdProvider);
+    //final baseProduct = productDetailData.firstWhere((item) => item['product_id'] == productId,
+    //      orElse: ()=> productDetailData.first,
+    //);
+    final colorsName = List<String>.from(productDetailData[index]["product_color"] as List<dynamic>);
+    //final colorsName = List<String>.from(baseProduct['product_color']! as List<dynamic>);
+    final colors = colorsName.map(colorFromName).toList();
+    // 選ばれた色の商品を探す
+    final product = productDetailData.firstWhere(
+      (item) => colorFromName(item['color'] as String) == selectedColor,
+      orElse: () => productDetailData[index],
+    );
     final storages = List<String>.from(productDetailData[index]['product_storage'] as List<dynamic>);
+    //final storages = List<String>.from(baseProduct['product_storage']! as List<dynamic>);
+    //final product = productDetailData.firstWhere(
+    //  (item) => item['product_id'] == productId &&
+    //    colorFromName(item['color'] as String) == selectedColor,
+    //  orElse: () => baseProduct,
+    //);
 
     return Scaffold(
       appBar: AppBar(
@@ -38,6 +55,8 @@ class ProductDetailPage extends ConsumerWidget {
           children: [
             Image.asset(
               productDetailData[index]['thumbnail'] as String,
+              //product['thumbnail'] as String,
+              //baseProduct['thumbnail']! as String,
               width: double.infinity,
               height: 200,
               fit: BoxFit.contain,
@@ -45,7 +64,12 @@ class ProductDetailPage extends ConsumerWidget {
             
             const SizedBox(height: 10),
 
-            Text(productDetailData[index]['product_name'] as String, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+            Text(productDetailData[index]['product_name'] as String, 
+            style: const TextStyle(
+              fontSize: 22, 
+              fontWeight: FontWeight.bold
+              )
+            ),
 
             const SizedBox(height: 10),
 
@@ -54,7 +78,27 @@ class ProductDetailPage extends ConsumerWidget {
               children: colors.map((color) {
                 final isSelected = color == selectedColor;
                 return GestureDetector(
-                  onTap: () => ref.read(selectedColorProvider.notifier).state = color,
+                  //onTap: () => ref.read(selectedColorProvider.notifier).state = color,
+                  onTap: () {
+                    final currentProductId = ref.watch(productIdProvider);
+                    // このIDに基づいて現在の商品を表示
+                    final product = productDetailData.firstWhere(
+                      (item) => item['product_id'] == currentProductId,
+                    );
+                     //カラー選択時に、その色に対応する商品を探す
+                    //final newProduct = productDetailData.firstWhere(
+                    //  (item) => item['color'] == color,
+                    //  orElse: () => baseProduct,
+                    //);
+                    //final newProduct = productDetailData.firstWhere(
+                    //  (item) => colorFromName(item['color']! as String) == color, 
+                    //  //orElse: () => baseProduct,
+                    //);
+                     //ここで product_id を切り替え
+                    ref.read(productIdProvider.notifier).state = product['product_id']! as int;
+                     //色の状態も更新（選択ハイライトのため）
+                    ref.read(selectedColorProvider.notifier).state = color;
+                  },   
                   child: Container(
                     margin: const EdgeInsets.all(4),
                     width: 30,
@@ -87,9 +131,14 @@ class ProductDetailPage extends ConsumerWidget {
 
             Row(
               children: [
-                Text('\$${productDetailData[index]['product_price']}', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                Text('\$${productDetailData[index]['product_price']}', 
+                  style: const TextStyle(
+                    fontSize: 24, 
+                    fontWeight: FontWeight.bold
+                  )
+                ),
                 const SizedBox(width: 8),
-                const Text('\$1499', style: TextStyle(decoration: TextDecoration.lineThrough)),
+                const Text(r'$1499', style: TextStyle(decoration: TextDecoration.lineThrough)),
               ],
             ),
 
@@ -131,7 +180,7 @@ class ProductDetailPage extends ConsumerWidget {
                   ref.read(cartProvider.notifier).addToCart(cartItem);
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => CartScreen()),
+                    MaterialPageRoute(builder: (context) => const CartScreen()),
                   );
                 },
                 child: const Text('Add to Wishlist'),
@@ -148,14 +197,14 @@ class ProductDetailPage extends ConsumerWidget {
 
             const SizedBox(height: 20),
 
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: const [
+              children: [
                 InfoColumn(icon: Icons.local_shipping, label: 'Free Delivery', value: '1-2 day'),
                 InfoColumn(icon: Icons.store, label: 'In Stock', value: 'Today'),
                 InfoColumn(icon: Icons.verified, label: 'Guaranteed', value: '1 year'),
               ],
-            )
+            ),
           ],
         ),
       ),
@@ -163,12 +212,14 @@ class ProductDetailPage extends ConsumerWidget {
   }
 }
 
+
+
 class SpecTile extends StatelessWidget {
+
+  const SpecTile({required this.icon, required this.label, required this.value, super.key});
   final IconData icon;
   final String label;
   final String value;
-
-  const SpecTile({super.key, required this.icon, required this.label, required this.value});
 
   @override
   Widget build(BuildContext context) {
@@ -192,11 +243,11 @@ class SpecTile extends StatelessWidget {
 }
 
 class InfoColumn extends StatelessWidget {
+
+  const InfoColumn({required this.icon, required this.label, required this.value, super.key});
   final IconData icon;
   final String label;
   final String value;
-
-  const InfoColumn({super.key, required this.icon, required this.label, required this.value});
 
   @override
   Widget build(BuildContext context) {
@@ -208,5 +259,22 @@ class InfoColumn extends StatelessWidget {
         Text(value, style: const TextStyle(fontSize: 12)),
       ],
     );
+  }
+}
+
+Color colorFromName (String colorName){
+  switch (colorName.toLowerCase()) {
+    case 'black':
+      return Colors.black;
+    case 'purple':
+      return Colors.purple;
+    case 'yellow':
+      return Colors.yellow;
+    case 'red':
+      return Colors.red;
+    case 'white':
+      return Colors.white;
+    default :
+      return Colors.white;
   }
 }

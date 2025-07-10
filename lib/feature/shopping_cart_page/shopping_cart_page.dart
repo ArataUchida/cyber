@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
 import 'package:cyber/feature/product_page/product_page.dart';
 import 'package:cyber/feature/shopping_cart_page/item_weidget.dart';
 import 'package:cyber/provider/shopping_cart_provider.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CartScreen extends ConsumerWidget {
-  CartScreen({super.key});
+  const CartScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -36,7 +36,7 @@ class CartScreen extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          Text('Shopping Cart', style:  TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
+          const Text('Shopping Cart', style:  TextStyle(fontSize: 25, fontWeight: FontWeight.bold)),
           const SizedBox(height: 24),
           ...cartItems.map((item) => ListTile(
             leading: Image.asset(item.thumbnail, width: 60),
@@ -50,7 +50,7 @@ class CartScreen extends ConsumerWidget {
                     ref.read(cartProvider.notifier).decreaseQuantity(item);
                   },
                 ),
-                Text("${item.quantity}"),
+                Text('${item.quantity}'),
                 IconButton(
                   icon: const Icon(Icons.add),
                   onPressed: () {
@@ -63,7 +63,7 @@ class CartScreen extends ConsumerWidget {
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text("\$${item.price * item.quantity}"),
+                Text('\$${item.price * item.quantity}'),
                 IconButton(
                   icon: const Icon(Icons.delete, color: Colors.red),
                   onPressed: () {
@@ -71,29 +71,29 @@ class CartScreen extends ConsumerWidget {
                   },
                 ),
               ],
-            )
-          )),
+            ),
+          ),),
           const SizedBox(height: 24),
-          const Text("Order Summary",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          const Text('Order Summary',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
           const SizedBox(height: 10),
-          _buildSummaryRow("Subtotal", orderSummary.subtotal),
-          _buildSummaryRow("Estimated Tax", orderSummary.estimatedTax),
-          _buildSummaryRow("Shipping", orderSummary.estimatedShipping),
+          _buildSummaryRow('Subtotal', orderSummary.subtotal),
+          _buildSummaryRow('Estimated Tax', orderSummary.estimatedTax),
+          _buildSummaryRow('Shipping', orderSummary.estimatedShipping),
           const Divider(),
-          _buildSummaryRow("Total", orderSummary.total, isBold: true),
+          _buildSummaryRow('Total', orderSummary.total, isBold: true),
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
               Navigator.push(
                 context, 
                 MaterialPageRoute(
-                  builder: (context) => ProductPage()
-                )
+                  builder: (context) => const ProductPage(),
+                ),
               );
             },
-            child: const Text("Checkout"),
-          )
+            child: const Text('Checkout'),
+          ),
         ],
       ),
     );
@@ -110,7 +110,7 @@ class CartScreen extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(label, style: style),
-          Text("\$$amount", style: style),
+          Text('\$$amount', style: style),
         ],
       ),
     );

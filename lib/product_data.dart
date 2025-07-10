@@ -1,26 +1,87 @@
-const Map<String,Object> productData = {
-	"totalCount": 85, 
-	"items": [
+final Map<String,Object> productData = {
+	//'totalCount': 85, 
+	'items': [
 		{
-      "product_id": 1,
-			"product_name": "Apple iPhone 14Pro",
-			"product_price": 1437,
-			"product_thumbnail": "assets/images/iphone14pro_gold.png",
-			"is_favorite": false,
+      'product_id': 1,
+      'product_version': '14Pro',
+			'product_name': 'Apple iPhone 14Pro',
+			'product_price': 1437,
+			'product_thumbnail': 'assets/images/iphone14_black.jpg.avif',
+			'is_favorite': false,
+		},
+    {
+      'product_id': 2,
+      'product_version': '14Pro',
+			'product_name': 'Apple iPhone 14Pro',
+			'product_price': 1437,
+			'product_thumbnail': 'assets/images/iphone14pro_yellow.jpg.avif',
+			'is_favorite': false,
+		},
+    {
+      'product_id': 3,
+      'product_version': '14Pro',
+			'product_name': 'Apple iPhone 14Pro',
+			'product_price': 1437,
+			'product_thumbnail': 'assets/images/iphone14_red.jpg.avif',
+			'is_favorite': false,
+		},
+    {
+      'product_id': 4,
+      'product_version': '14Pro',
+			'product_name': 'Apple iPhone 14Pro',
+			'product_price': 1437,
+			'product_thumbnail': 'assets/images/iphone14_white.jpg.avif',
+			'is_favorite': false,
+		},
+    {
+      'product_id': 5,
+      'product_version': '14Pro',
+			'product_name': 'Apple iPhone 14Pro',
+			'product_price': 1437,
+			'product_thumbnail': 'assets/images/iphone14_purple.jpg.avif',
+			'is_favorite': false,
 		},
 		{
-      "product_id": 2,
-			"product_name": "Apple iPhone 11 128GB",
-			"product_price": 510,
-			"product_thumbnail": "assets/images/Iphone 11.png",
-			"is_favorite": false
+      'product_id': 6,
+      'product_version': '11',
+			'product_name': 'Apple iPhone 11 ',
+			'product_price': 510,
+			'product_thumbnail': 'assets/images/iphone11_black.jpg.avif',
+			'is_favorite': false,
 		},	
     {
-      "product_id": 3,
-			"product_name": "Apple iPhone 11 128GB",
-			"product_price": 550,
-			"product_thumbnail": "assets/images/Iphone 14 pro_white.png",
-			"is_favorite": false
+      'product_id': 7,
+      'product_version': '11',
+			'product_name': 'Apple iPhone 11 ',
+			'product_price': 550,
+			'product_thumbnail': 'assets/images/iphone 14 pro_white.png',
+			'is_favorite': false,
 		},	
-	]
+    {
+      'product_id': 8,
+      'product_version': '11',
+			'product_name': 'Apple iPhone 11 ',
+			'product_price': 550,
+			'product_thumbnail': 'assets/images/iphone 14 pro_white.png',
+			'is_favorite': false,
+		},
+    {
+      'product_id': 9,
+      'product_version': '11',
+			'product_name': 'Apple iPhone 11 ',
+			'product_price': 550,
+			'product_thumbnail': 'assets/images/iphone 14 pro_white.png',
+			'is_favorite': false,
+		},	
+    {
+      'product_id': 10,
+      'product_version': '11',
+			'product_name': 'Apple iPhone 11 ',
+			'product_price': 550,
+			'product_thumbnail': 'assets/images/iphone 14 pro_white.png',
+			'is_favorite': false,
+		},	
+	],
 };
+
+final productlength = (productData['items'] as List).length;

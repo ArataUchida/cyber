@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
 
 class PaginationWidget extends StatelessWidget {
+
+  const PaginationWidget({
+    required this.currentPage, required this.totalPages, required this.onPageChanged, super.key,
+  });
   final int currentPage;
   final int totalPages;
   final Function(int) onPageChanged;
 
-  const PaginationWidget({
-    super.key,
-    required this.currentPage,
-    required this.totalPages,
-    required this.onPageChanged,
-  });
-
   @override
   Widget build(BuildContext context) {
-    List<Widget> pageButtons = [];
+    final pageButtons = <Widget>[];
 
     pageButtons.add(
       IconButton(
@@ -24,7 +21,7 @@ class PaginationWidget extends StatelessWidget {
     );
 
     // 数字ボタン
-    for (int i = 1; i <= totalPages; i++) {
+    for (var i = 1; i <= totalPages; i++) {
       if (i <= 3 || i == totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
         pageButtons.add(
           GestureDetector(
@@ -52,12 +49,12 @@ class PaginationWidget extends StatelessWidget {
         pageButtons.add(const Padding(
           padding: EdgeInsets.symmetric(horizontal: 8),
           child: Text('...'),
-        ));
+        ),);
       } else if (i == totalPages - 1 && currentPage < totalPages - 4) {
         pageButtons.add(const Padding(
           padding: EdgeInsets.symmetric(horizontal: 8),
           child: Text('...'),
-        ));
+        ),);
       }
     }
 

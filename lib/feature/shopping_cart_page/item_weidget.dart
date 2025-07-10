@@ -1,9 +1,4 @@
 class CartItem {
-  final int productId;
-  final String name;
-  final String thumbnail;
-  final int price;
-  final int quantity;
 
   CartItem({
     required this.productId,
@@ -14,19 +9,20 @@ class CartItem {
   });
 
   factory CartItem.fromJson(Map<String, dynamic> json) => CartItem(
-        productId: json['product_id'],
-        name: json['name'],
-        thumbnail: json['thumbnail'],
-        price: json['price'],
-        quantity: json['quantity'],
+        productId: json['product_id']as int,
+        name: json['name'].toString(),
+        thumbnail: json['thumbnail'].toString(),
+        price: json['price']as int,
+        quantity: json['quantity']as int,
       );
+  final int productId;
+  final String name;
+  final String thumbnail;
+  final int price;
+  final int quantity;
 }
 
 class OrderSummary {
-  final int subtotal;
-  final int estimatedTax;
-  final int estimatedShipping;
-  final int total;
 
   OrderSummary({
     required this.subtotal,
@@ -36,9 +32,13 @@ class OrderSummary {
   });
 
   factory OrderSummary.fromJson(Map<String, dynamic> json) => OrderSummary(
-        subtotal: json['subtotal'],
-        estimatedTax: json['estimated_tax'],
-        estimatedShipping: json['estimated_shipping'],
-        total: json['total'],
+        subtotal: json['subtotal']as int,
+        estimatedTax: json['estimated_tax'] as int,
+        estimatedShipping: json['estimated_shipping']as int,
+        total: json['total']as int,
       );
+  final int subtotal;
+  final int estimatedTax;
+  final int estimatedShipping;
+  final int total;
 }
