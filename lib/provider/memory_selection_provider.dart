@@ -15,7 +15,7 @@ class MemorySelectionNotifier extends StateNotifier<Map<String, bool>> {
   MemorySelectionNotifier()
       : super({for (final mem in memoryOptions) mem: false});
 
-  void toggle(String memory, bool selected) {
+  void toggle(String memory, {required bool selected}) {
     state = {
       ...state,
       memory: selected,

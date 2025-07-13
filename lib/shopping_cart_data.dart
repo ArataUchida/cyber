@@ -16,7 +16,7 @@ const shoppingCartData = {
     },
     {
       'product_id': 3,
-      'name': 'Apple Watch Series 9 GPS 41mm Starlight Aluminium',
+      'name': 'Apple Watch Series 9 GPS 41mm Starlight ',
       'thumbnail': 'assets/images/Apple Watch Series 9 GPS 41mm.png',
       'price': 399,
       'quantity': 1,

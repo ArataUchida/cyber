@@ -17,7 +17,7 @@ class BrandSelectionNotifier extends StateNotifier<Map<String, bool>> {
   BrandSelectionNotifier()
       : super({for (final brand in brandList) brand: false});
 
-  void toggle(String brand, bool selected) {
+  void toggle(String brand, {required bool selected}) {
     state = {
       ...state,
       brand: selected,

@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:cyber/provider/memory_selection_provider.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MemoryFilterWidget extends ConsumerWidget {
@@ -40,7 +40,7 @@ class MemoryFilterWidget extends ConsumerWidget {
             onChanged: (checked) {
               ref
                   .read(memorySelectionProvider.notifier)
-                  .toggle(memory, checked ?? false);
+                  .toggle(memory, selected: checked ?? false);
             },
             title: Text(memory),
             controlAffinity: ListTileControlAffinity.leading,

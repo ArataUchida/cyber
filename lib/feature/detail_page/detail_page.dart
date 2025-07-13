@@ -17,28 +17,14 @@ class ProductDetailPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final selectedColor = ref.watch(selectedColorProvider);
     final selectedStorage = ref.watch(selectedStorageProvider);
-    final productId = ref.watch(productIdProvider);
-    //final baseProduct = productDetailData.firstWhere((item) => item['product_id'] == productId,
-    //      orElse: ()=> productDetailData.first,
-    //);
-    final colorsName = List<String>.from(productDetailData[index]["product_color"] as List<dynamic>);
-    //final colorsName = List<String>.from(baseProduct['product_color']! as List<dynamic>);
+    final colorsName = List<String>.from(productDetailData[index]['product_color']! as List<dynamic>);
     final colors = colorsName.map(colorFromName).toList();
-    // 選ばれた色の商品を探す
-    final product = productDetailData.firstWhere(
-      (item) => colorFromName(item['color'] as String) == selectedColor,
-      orElse: () => productDetailData[index],
-    );
-    final storages = List<String>.from(productDetailData[index]['product_storage'] as List<dynamic>);
-    //final storages = List<String>.from(baseProduct['product_storage']! as List<dynamic>);
-    //final product = productDetailData.firstWhere(
-    //  (item) => item['product_id'] == productId &&
-    //    colorFromName(item['color'] as String) == selectedColor,
-    //  orElse: () => baseProduct,
-    //);
+    final storages = List<String>.from(productDetailData[index]['product_storage']! as List<dynamic>);
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Align(
           alignment: Alignment.centerLeft,
           child: Image.asset(
@@ -54,9 +40,7 @@ class ProductDetailPage extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Image.asset(
-              productDetailData[index]['thumbnail'] as String,
-              //product['thumbnail'] as String,
-              //baseProduct['thumbnail']! as String,
+              productDetailData[index]['thumbnail']! as String,
               width: double.infinity,
               height: 200,
               fit: BoxFit.contain,
@@ -64,11 +48,11 @@ class ProductDetailPage extends ConsumerWidget {
             
             const SizedBox(height: 10),
 
-            Text(productDetailData[index]['product_name'] as String, 
-            style: const TextStyle(
-              fontSize: 22, 
-              fontWeight: FontWeight.bold
-              )
+            Text(productDetailData[index]['product_name']! as String, 
+              style: const TextStyle(
+                fontSize: 22, 
+                fontWeight: FontWeight.bold,
+              ),
             ),
 
             const SizedBox(height: 10),
@@ -78,27 +62,7 @@ class ProductDetailPage extends ConsumerWidget {
               children: colors.map((color) {
                 final isSelected = color == selectedColor;
                 return GestureDetector(
-                  //onTap: () => ref.read(selectedColorProvider.notifier).state = color,
-                  onTap: () {
-                    final currentProductId = ref.watch(productIdProvider);
-                    // このIDに基づいて現在の商品を表示
-                    final product = productDetailData.firstWhere(
-                      (item) => item['product_id'] == currentProductId,
-                    );
-                     //カラー選択時に、その色に対応する商品を探す
-                    //final newProduct = productDetailData.firstWhere(
-                    //  (item) => item['color'] == color,
-                    //  orElse: () => baseProduct,
-                    //);
-                    //final newProduct = productDetailData.firstWhere(
-                    //  (item) => colorFromName(item['color']! as String) == color, 
-                    //  //orElse: () => baseProduct,
-                    //);
-                     //ここで product_id を切り替え
-                    ref.read(productIdProvider.notifier).state = product['product_id']! as int;
-                     //色の状態も更新（選択ハイライトのため）
-                    ref.read(selectedColorProvider.notifier).state = color;
-                  },   
+                  onTap: () => ref.read(selectedColorProvider.notifier).state = color,
                   child: Container(
                     margin: const EdgeInsets.all(4),
                     width: 30,
@@ -122,6 +86,7 @@ class ProductDetailPage extends ConsumerWidget {
                 return ChoiceChip(
                   label: Text(storage),
                   selected: isSelected,
+                  backgroundColor: Colors.white,  
                   onSelected: (_) => ref.read(selectedStorageProvider.notifier).state = storage,
                 );
               }).toList(),
@@ -134,8 +99,8 @@ class ProductDetailPage extends ConsumerWidget {
                 Text('\$${productDetailData[index]['product_price']}', 
                   style: const TextStyle(
                     fontSize: 24, 
-                    fontWeight: FontWeight.bold
-                  )
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(width: 8),
                 const Text(r'$1499', style: TextStyle(decoration: TextDecoration.lineThrough)),
@@ -152,11 +117,11 @@ class ProductDetailPage extends ConsumerWidget {
               crossAxisSpacing: 8,
               children: [
                 SpecTile(icon: Icons.smartphone, label: 'Screen size', value: '${productDetailData[index]['product_screenSize']}"'),
-                SpecTile(icon: Icons.memory, label: 'CPU', value: productDetailData[index]['product_cpu'] as String),
+                SpecTile(icon: Icons.memory, label: 'CPU', value: productDetailData[index]['product_cpu']! as String),
                 SpecTile(icon: Icons.blur_circular, label: 'Cores', value: '${productDetailData[index]['product_numberOfCores']}'),
-                SpecTile(icon: Icons.camera_alt, label: 'Main', value: productDetailData[index]['product_mainCamera'] as String),
-                SpecTile(icon: Icons.camera_front, label: 'Front', value: productDetailData[index]['product_FrontCamera'] as String),
-                SpecTile(icon: Icons.battery_full, label: 'Battery', value: productDetailData[index]['product_batteryCapacity'] as String),
+                SpecTile(icon: Icons.camera_alt, label: 'Main', value: productDetailData[index]['product_mainCamera']! as String),
+                SpecTile(icon: Icons.camera_front, label: 'Front', value: productDetailData[index]['product_FrontCamera']! as String),
+                SpecTile(icon: Icons.battery_full, label: 'Battery', value: productDetailData[index]['product_batteryCapacity']! as String),
               ],
             ),
 
@@ -173,14 +138,14 @@ class ProductDetailPage extends ConsumerWidget {
               child: OutlinedButton(
                 onPressed: () {
                   final cartItem = CartItem(
-                    name: productDetailData[index]['product_name'] as String,
-                    thumbnail: productDetailData[index]["thumbnail"] as String,
-                    price: productDetailData[index]['product_price'] as int,
+                    name: productDetailData[index]['product_name']! as String,
+                    thumbnail: productDetailData[index]['thumbnail']! as String,
+                    price: productDetailData[index]['product_price']! as int,
                   );
                   ref.read(cartProvider.notifier).addToCart(cartItem);
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const CartScreen()),
+                    MaterialPageRoute<Widget>(builder: (context) => const CartScreen()),
                   );
                 },
                 child: const Text('Add to Wishlist'),
@@ -191,6 +156,9 @@ class ProductDetailPage extends ConsumerWidget {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                ),
                 child: const Text('Add to Cart'),
               ),
             ),

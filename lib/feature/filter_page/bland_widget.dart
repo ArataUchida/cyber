@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:cyber/provider/brand_selection_provider.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 
 class BrandFilterWidget extends ConsumerWidget {
   const BrandFilterWidget({super.key});
@@ -42,7 +43,7 @@ class BrandFilterWidget extends ConsumerWidget {
             onChanged: (checked) {
               ref
                   .read(brandSelectionProvider.notifier)
-                  .toggle(brand, checked ?? false);
+                  .toggle(brand, selected: checked ?? false);
             },
             title: Text(brand),
             controlAffinity: ListTileControlAffinity.leading,

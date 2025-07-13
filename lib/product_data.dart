@@ -1,5 +1,4 @@
 final Map<String,Object> productData = {
-	//'totalCount': 85, 
 	'items': [
 		{
       'product_id': 1,
@@ -84,4 +83,4 @@ final Map<String,Object> productData = {
 	],
 };
 
-final productlength = (productData['items'] as List).length;
+final productLength = (productData['items']! as List).length;

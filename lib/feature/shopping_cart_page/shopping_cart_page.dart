@@ -1,5 +1,5 @@
 import 'package:cyber/feature/product_page/product_page.dart';
-import 'package:cyber/feature/shopping_cart_page/item_weidget.dart';
+import 'package:cyber/feature/shopping_cart_page/item_widget.dart';
 import 'package:cyber/provider/shopping_cart_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,7 +23,9 @@ class CartScreen extends ConsumerWidget {
       total: subtotal + 50 + 29 ,
     );
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Align(
           alignment: Alignment.centerLeft,
           child: Image.asset(
@@ -87,11 +89,14 @@ class CartScreen extends ConsumerWidget {
             onPressed: () {
               Navigator.push(
                 context, 
-                MaterialPageRoute(
+                MaterialPageRoute<Widget>(
                   builder: (context) => const ProductPage(),
                 ),
               );
             },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.white,
+            ),
             child: const Text('Checkout'),
           ),
         ],
@@ -116,4 +121,3 @@ class CartScreen extends ConsumerWidget {
     );
   }
 }
-        

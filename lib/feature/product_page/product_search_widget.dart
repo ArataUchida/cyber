@@ -15,13 +15,13 @@ class ProductSearchWidget extends StatelessWidget{
           onPressed: () {
             Navigator.push(
               context, 
-              MaterialPageRoute(builder: (context) => const FilterPage()),
+              MaterialPageRoute<Widget>(builder: (context) => const FilterPage()),
               );
           },
           style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             padding: const EdgeInsets.symmetric(horizontal: 45, vertical: 16),
-            backgroundColor: Colors.white
+            backgroundColor: Colors.white,
           ),
           child: const Row(
             children: [
@@ -38,7 +38,7 @@ class ProductSearchWidget extends StatelessWidget{
           style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 16),
-            backgroundColor: Colors.white
+            backgroundColor: Colors.white,
           ),
           child: const Row(
             children: [

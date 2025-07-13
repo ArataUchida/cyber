@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:cyber/provider/price_range_provider.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PriceSlider extends ConsumerWidget {
@@ -11,7 +11,7 @@ class PriceSlider extends ConsumerWidget {
     final controllerFrom = TextEditingController(text: range.start.toInt().toString());
     final controllerTo = TextEditingController(text: range.end.toInt().toString());
 
-    void _updateRangeFromText(){
+    void updateRangeFromText(){
       final from = int.tryParse(controllerFrom.text);
       final to = int.tryParse(controllerTo.text);
       if(from != null && to !=null && from <= to && to <= 2000){
@@ -31,7 +31,7 @@ class PriceSlider extends ConsumerWidget {
                 child: TextField(
                   controller: controllerFrom,
                   decoration: const InputDecoration(labelText: 'From',border: OutlineInputBorder()),
-                  onSubmitted: (_) => _updateRangeFromText()
+                  onSubmitted: (_) => updateRangeFromText(),
                 ),
               ),
               const SizedBox(width: 16),
@@ -39,7 +39,7 @@ class PriceSlider extends ConsumerWidget {
                 child: TextField(
                   controller: controllerTo,
                   decoration: const InputDecoration(labelText: 'To',border: OutlineInputBorder()),
-                  onSubmitted: (_) => _updateRangeFromText()
+                  onSubmitted: (_) => updateRangeFromText(),
                 ),
               ),
             ],

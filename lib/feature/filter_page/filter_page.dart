@@ -25,7 +25,7 @@ class FilterPage extends ConsumerWidget{
                 ),
               ),
             ],
-          )
+          ),
         ),
         actions: [
           IconButton(
@@ -34,7 +34,8 @@ class FilterPage extends ConsumerWidget{
           ),
         ],
       ),
-      body: Container(
+      //body: Container(
+      body: ColoredBox(
         color: Colors.white,
         child: ListView(
           children: const [
@@ -61,8 +62,7 @@ class FilterPage extends ConsumerWidget{
             ),
           ],
         ),
-      )
+      ),
     );
   }
 }
-

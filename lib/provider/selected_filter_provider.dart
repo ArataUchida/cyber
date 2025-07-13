@@ -18,7 +18,7 @@ class SelectedFilterNotifier extends StateNotifier<SelectedFilter>{
   }
 }
 
-final SelectedFilterProvider = 
+final selectedFilterProvider = 
       StateNotifierProvider<SelectedFilterNotifier,SelectedFilter>(
-        (ref) => SelectedFilterNotifier()
+        (ref) => SelectedFilterNotifier(),
       );
